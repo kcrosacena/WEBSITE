@@ -51,9 +51,13 @@ if (isset($_GET['delete'])) {
             echo "<td>" . htmlspecialchars($row['description']) . "</td>";
             echo "<td>" . htmlspecialchars($row['date_finished']) . "</td>";
         
-            // Show image preview if file exists
-            $imgPath = !empty($row['image']) ? 'uploads/' . $row['image'] : 'uploads.jpg';
-            echo "<td><img src='$imgPath' alt='' width='100'></td>";
+            $img = "uploads/" . $row['image'];
+
+    if (!empty($row['image']) && file_exists($img)) {
+    echo "<td><img src='$img' width='120' height='90' style='object-fit:cover;'></td>";
+} else {
+    echo "<td><span style='color:red;'>No Image</span></td>";
+}
 
             // 🗑️ Delete link with confirmation
             echo "<td>
