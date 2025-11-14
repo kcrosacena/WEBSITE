@@ -7,7 +7,7 @@ $database = 'kcportfolio'; // Make sure this database exists
 $port = '10272';
 
 // Create connection
-$conn = new mysqli($host, $username, $password, $database, $port);
+$conn = new mysqli($servername, $username, $password, $database, $port);
 
 // Check connection
 if ($conn->connect_error) {
