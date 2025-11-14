@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KC's | Portfolio</title>
+
+  <style>
+    :root {
+      --bg: #fefefe;
+      --text: #333;
+      --header-bg: #0f0f0f;
+      --header-text: #fff;
+      --accent: #f76767;
+      --box-bg: #f9f8fa;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --toggle-color: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1020;
+      --text: #e6eef8;
+      --header-bg: #111827;
+      --header-text: #ffffff;
+      --accent: #f76767;
+      --box-bg: #1e293b;
+      --shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Calibri", sans-serif;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--header-text);
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: var(--header-text);
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.15);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    [data-theme="dark"] .theme-toggle {
+      background: gold;
+      border-color: gold;
+    }
+
+    section {
+      display: none;
+      padding: 100px 40px;
+      min-height: 100vh;
+      animation: fade 0.5s ease-in-out;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .hero-content h1 {
+      font-size: 2.5rem;
+      color: var(--text);
+    }
+
+    .hero-content span {
+      color: var(--accent);
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: var(--text);
+    }
+
+    .about {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-img img {
+      width: 250px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px var(--shadow);
+    }
+
+    .about-text {
+      max-width: 600px;
+    }
+
+    .about-text h2 {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .info-box {
+      background: var(--box-bg);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 2px 5px var(--shadow);
+    }
+
+    .info-box ul {
+      list-style: none;
+      line-height: 2;
+    }
+
+    .education-box {
+      display: grid;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .edu-item {
+      border-left: 4px solid var(--accent);
+      padding-left: 15px;
+      background: var(--box-bg);
+      border-radius: 5px;
+      padding: 15px;
+      box-shadow: 0 2px 5px var(--shadow);
+    }
+
+    .contact-box {
+      background: var(--box-bg);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 2px 5px var(--shadow);
+    }
+
+    .contact-box a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--header-bg);
+      color: var(--header-text);
+      transition: 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .about {
+        flex-direction: column;
+      }
+    }
+
+    /* LOGIN PAGE */
+    #login-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: url('background.jpg') no-repeat center center/cover;
+      color: var(--text);
+      position: relative;
+       overflow: hidden;
+    }
+    .login-box {
+      background: var(--box-bg);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px var(--shadow);
+      width: 300px;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #0c0c0c;
+      outline: none;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: var(--accent);
+      color: #141414;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #050505;
+    }
+
+    .forgot-link {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--header-text);
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: var(--header-text);
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn {
+      background: var(--accent);
+      border: none;
+      color: rgb(10, 10, 10);
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      display: none;
+    }
+
+    .logout-btn:hover {
+      background: #d75555;
+    }
+  </style>
+</head>
+
+ <body>
+  <!-- LOGIN PAGE -->
+  <div id="login-page">
+    <div class="login-box">
+      <h2>Welcome to my Portfolio</h2>
+      <input type="text" id="username" placeholder="Enter Username">
+      <input type="password" id="password" placeholder="Enter Password">
+      <button id="login-btn">LOG IN</button>
+      <a href="#" class="forgot-link" id="forgot-link">Forgot Password?</a>
+      <p class="error" id="login-error"></p>
+    </div>
+  </div>
+
+  <!-- Portfolio Page -->
+  <div id="portfolio-page" style="display:none;">
+    <header>
+      <div class="logo">PORTFOLIO</div>
+      <nav>
+        <ul>
+          <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+          <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+          <li><a href="#personal-info" class="nav-link" data-section="personal-info">Personal Information</a></li>
+          <li><a href="#education" class="nav-link" data-section="education">Educational Background</a></li>
+          <li><a href="#project" class="nav-link" data-section="projects">Projects</a></li>
+          <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+          <li><button id="themeToggle" class="theme-toggle" title="Toggle Light/Dark Mode">🌙</button></li>
+          <li><button id="logout-btn" class="logout-btn">Logout</button></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Existing Portfolio Content (unchanged) -->
+    <section class="section active" id="home">
+      <div class="hero-content">
+        <h1>Hi, I'm <span>KC RUBIO ROSACEÑA</span> </h1>
+        <p>IT INTERN</p>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="about">
+        <div class="about-img">
+          <img src="myimage.jpg" alt="KC's profile">
+        </div>
+        <div class="about-text">
+          <h2>INTRODUCTION ABOUT ME</h2>
+          <p>
+            I'm <strong>KC RUBIO ROSACEÑA</strong>, a 4th-year student studying <strong>Bachelor of Industrial Technology – Major in Electronics</strong> at <strong>Cebu Technological University, Daanbantayan Campus</strong>. I am from <strong>Medellin, Cebu</strong>, and I’m excited to be pursuing my passion for technology. </p> <p> In my free time, I enjoy watching short dramas, taking pictures, and learning about new technology trends. My goal is to become a skilled programmer and create innovative websites and systems. </p> <p> I am eager to learn, explore new skills, and gain experiences that will help me achieve my goals in the future. </p>
+      </div>
+    </section>
+
+    <section class="section" id="personal-info">
+      <h2>Personal Information</h2>
+      <div class="info-box">
+        <ul>
+          <li><strong>Full Name:</strong> KC RUBIO ROSACEÑA</li>
+          <li><strong>Age:</strong> 21</li>
+          <li><strong>Sex:</strong> FEMALE</li>
+          <li><strong>Civil Status:</strong> SINGLE</li>
+          <li><strong>Birth Date:</strong> OCTOBER 17, 2003</li>
+          <li><strong>Birth Place:</strong> MEDELLIN, CEBU</li>
+          <li><strong>Address:</strong> HUMAY-HUMAY GUN-OB LAPU-LAPU CITY</li>
+          <li><strong>Religion:</strong> ROMAN CATHOLIC</li>
+          <li><strong>Citizenship:</strong> FILIPINO</li>
+          <li><strong>Languages:</strong> CEBUANO, FILIPINO, ENGLISH</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="education">
+      <h2>Educational Background</h2>
+      <div class="education-box">
+        <div class="edu-item">
+          <h3>Tertiary Education</h3>
+          <p><strong>School:</strong> Cebu Technological University – Daanbantayan Campus</p>
+          <p><strong>Course:</strong> Bachelor of Industrial Technology – Major in Electronics</p>
+          <p><strong>Year:</strong> 2025 – Ongoing</p>
+        </div>
+        <div class="edu-item">
+          <h3>Senior High School</h3>
+          <p><strong>School:</strong> Pajo National High School</p>
+          <p><strong>Strand:</strong> Humanities and Social Sciences (HUMSS)</p>
+          <p><strong>Year:</strong> 2020 – 2021</p>
+        </div>
+        <div class="edu-item">
+          <h3>Junior High School</h3>
+          <p><strong>School:</strong> Pajo National High School</p>
+          <p><strong>Year:</strong> 2019 – 2020</p>
+        </div>
+        <div class="edu-item">
+          <h3>Elementary</h3>
+          <p><strong>School:</strong> Pajo Elementary School</p>
+          <p><strong>Year:</strong> 2018 – 2019</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Contact Details</h2>
+      <div class="contact-box">
+        <p><strong>Email:</strong> <a href="mailto:kristymangubat11@gmail.com">kristymangubat11@gmail.com</a></p>
+        <p><strong>Phone:</strong> 09947606987</p>
+        <p><strong>Address:</strong> Humay-Humay Gun-ob Lapu-lapu City</p>
+        <p><strong>Facebook:</strong> <a href="https://www.facebook.com/" target="_blank">kacyrubiopijana</a></p>
+        <p><strong>Instagram:</strong> <a href="https://instagram.com/" target="_blank">@kessy_pejana</a></p>
+        <p><strong>Github:</strong> <a href="https://github.com/" target="_blank">kcrosacena</a></p>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2025 KC Rosaceña. All rights reserved.</p>
+    </footer>
+  </div>
+
+    <script>
+    const loginPage = document.getElementById("login-page");
+    const portfolioPage = document.getElementById("portfolio-page");
+    const loginBtn = document.getElementById("login-btn");
+    const errorMsg = document.getElementById("login-error");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    const validUser = "kristymangubat11@gmail.com";
+    const validPass = "kcrubio17";
+
+    // Stay logged in if previously logged in
+    if (localStorage.getItem("loggedIn") === "true") {
+      loginPage.style.display = "none";
+      portfolioPage.style.display = "block";
+      logoutBtn.style.display = "inline-block";
+    }
+
+    loginBtn.addEventListener("click", () => {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username === validUser && password === validPass) {
+        localStorage.setItem("loggedIn", "true");
+        loginPage.style.display = "none";
+        portfolioPage.style.display = "block";
+        logoutBtn.style.display = "inline-block";
+      } else {
+        errorMsg.textContent = "Incorrect username or password!";
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("loggedIn");
+      location.reload();
+    });
+
+     // --- NAVIGATION SYSTEM ---
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".section");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove("active"));
+        sections.forEach(s => s.classList.remove("active"));
+        link.classList.add("active");
+        const target = link.getAttribute("data-section");
+        document.getElementById(target).classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById("themeToggle");
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeToggle.textContent = "☀️";
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const theme = document.documentElement.getAttribute("data-theme");
+      if (theme === "dark") {
+        document.documentElement.removeAttribute("data-theme");
+        localStorage.setItem("theme", "light");
+        themeToggle.textContent = "🌙";
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+        themeToggle.textContent = "☀️";
+      }
+    });
+  </script>
+ </body>
+ <html>

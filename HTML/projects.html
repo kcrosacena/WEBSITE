@@ -1,0 +1,141 @@
+    <section id="portfolio">
+    <h2>My Projects</h2>
+    <button id="addProjectBtn" class="btn">+ Add Project</button>
+
+    <table class="project-table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Date Finished</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="projectTableBody"></tbody>
+    </table>
+    </section>
+
+    <!-- Modal Form -->
+    <div id="projectModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Add Project</h3>
+        <form id="projectForm">
+        <input type="hidden" id="projectId">
+
+        <label>Title:</label>
+        <input type="text" id="title" required>
+
+        <label>Description:</label>
+        <textarea id="description" required></textarea>
+
+        <label>Upload Project Image:</label>
+        <input type="file" id="image" accept="image/*" required>
+
+        <label>Date Finished:</label>
+        <input type="date" id="date_finished" required>
+
+        <div class="modal-buttons">
+            <button type="submit" class="btn save">Save</button>
+            <button type="button" id="closeModal" class="btn cancel">Cancel</button>
+        </div>
+        </form>
+    </div>
+    </div>
+
+    <style>
+    .btn { padding: 8px 12px; cursor: pointer; background: #007BFF; color: white; border: none; border-radius: 5px; }
+    .btn.cancel { background: #999; }
+    .btn.save { background: #28a745; }
+
+    .project-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .project-table th, .project-table td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    .project-table img { width: 60px; height: auto; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background: #fff; padding: 20px; border-radius: 10px; width: 350px; }
+    .modal-content form { display: flex; flex-direction: column; gap: 10px; }
+    </style>
+
+    <script>
+    const addProjectBtn = document.getElementById("addProjectBtn");
+    const modal = document.getElementById("projectModal");
+    const closeModalBtn = document.getElementById("closeModal");
+    const projectForm = document.getElementById("projectForm");
+    const modalTitle = document.getElementById("modalTitle");
+    const tableBody = document.getElementById("projectTableBody");
+    let editIndex = null;
+    let currentImageURL = null;
+
+    addProjectBtn.addEventListener("click", () => {
+        modal.style.display = "flex";
+        modalTitle.textContent = "Add Project";
+        projectForm.reset();
+        currentImageURL = null;
+        editIndex = null;
+    });
+
+    closeModalBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    projectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const imageInput = document.getElementById("image");
+        const date = document.getElementById("date_finished").value;
+
+        let imageURL = currentImageURL;
+        if (imageInput.files.length > 0) {
+        imageURL = URL.createObjectURL(imageInput.files[0]);
+        }
+
+        if (editIndex === null) {
+        addRow(title, description, imageURL, date);
+        } else {
+        updateRow(title, description, imageURL, date);
+        }
+
+        modal.style.display = "none";
+    });
+
+    function addRow(title, description, imageURL, date) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+        <td>${title}</td>
+        <td>${description}</td>
+        <td><img src="${imageURL}" alt="Project"></td>
+        <td>${date}</td>
+        <td>
+            <button class="btn" onclick="editProject(this)">Edit</button>
+            <button class="btn cancel" onclick="deleteProject(this)">Delete</button>
+        </td>`;
+        tableBody.appendChild(row);
+    }
+
+    window.editProject = function(button) {
+        const row = button.parentNode.parentNode;
+        editIndex = row.rowIndex - 1;
+        modal.style.display = "flex";
+        modalTitle.textContent = "Edit Project";
+
+        currentImageURL = row.cells[2].querySelector("img").src;
+        document.getElementById("title").value = row.cells[0].textContent;
+        document.getElementById("description").value = row.cells[1].textContent;
+        document.getElementById("date_finished").value = row.cells[3].textContent;
+        document.getElementById("image").value = ""; // To allow re-upload if wanted
+    };
+
+    function updateRow(title, description, imageURL, date) {
+        const row = tableBody.rows[editIndex];
+        row.cells[0].textContent = title;
+        row.cells[1].textContent = description;
+        row.cells[2].querySelector("img").src = imageURL;
+        row.cells[3].textContent = date;
+    }
+
+    window.deleteProject = function(button) {
+        button.parentNode.parentNode.remove();
+    };
+    </script>
