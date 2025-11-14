@@ -5,12 +5,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kcportfolio"; // change to your DB name
+$servername = "db.fr-pari1.bengt.wasmernet.com";
+$username = "695c3eb874798000bff4f95a1088";
+$password = "0691695c-3eb8-75ae-8000-45e90c3677ae";
+$dbname = "kcportfolio"; 
+$port = "10272";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
 
 // Check connection
 if ($conn->connect_error) {
