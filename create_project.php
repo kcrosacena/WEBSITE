@@ -1,37 +1,22 @@
 <?php
 include 'projects.php'; // Make sure this file connects to your database
 
-if (isset($_POST['submit'])) {
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $date_finished = $_POST['date_finished'];
 
-    // === IMAGE UPLOAD ===
-    $imageName = $_FILES['image']['name'];
-    $imageTmp = $_FILES['image']['tmp_name'];
+    // Store only image file name
+    $image = $_FILES['image']['name'];
 
-    // Create unique filename to avoid duplicates
-    $newImageName = time() . "_" . basename($imageName);
+    // Insert into database
+    $sql = "INSERT INTO projects (title, description, date_finished, image)
+            VALUES ('$title', '$description', '$date_finished', '$image')";
 
-    // Correct upload folder
-    $uploadPath = "uploads/" . $newImageName;
-
-    // Move file to uploads folder
-    if (move_uploaded_file($imageTmp, $uploadPath)) {
-
-        // Save to database
-        $sql = "INSERT INTO projects (title, description, date_finished, image)
-                VALUES ('$title', '$description', '$date_finished', '$newImageName')";
-
-        if ($conn->query($sql)) {
-            echo "Project uploaded successfully!";
-        } else {
-            echo "Database Error: " . $conn->error;
-        }
-
+    if ($conn->query($sql) === TRUE) {
+        echo "<p style='color:green;'>✅ Project added successfully!</p>";
     } else {
-        echo "Image upload failed!";
+        echo "<p style='color:red;'>❌ Error: " . $conn->error . "</p>";
     }
 }
 ?>

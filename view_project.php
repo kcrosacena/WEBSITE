@@ -53,7 +53,7 @@ if (isset($_GET['delete'])) {
         
             $img = "uploads/" . $row['image'];
 
-    if (!empty($row['image']) && file_exists($img)) {
+if (!empty($row['image']) && file_exists($img)) {
     echo "<td><img src='$img' width='120' height='90' style='object-fit:cover;'></td>";
 } else {
     echo "<td><span style='color:red;'>No Image</span></td>";

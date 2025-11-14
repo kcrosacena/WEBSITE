@@ -3,7 +3,7 @@ session_start();
 
 // Redirect to portfolio if already logged in
 if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
-  header("Location: portfolio.php");
+  header("Location: home.php");
   exit;
 }
 
