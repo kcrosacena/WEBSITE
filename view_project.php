@@ -3,7 +3,7 @@ include 'projects.php'; // Database connection
 
 // ✅ Handle delete request
 if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']); // sanitize
+    $id = intval($_GET['delete']); // sanitize input
     $conn->query("DELETE FROM projects WHERE id = $id");
     header("Location: view_projects.php");
     exit;
@@ -22,7 +22,7 @@ if (isset($_GET['delete'])) {
 
 <h2>All Projects</h2>
 
-<!-- 🏠 Home, ⬅ Back to Form Buttons -->
+<!-- 🏠 Home, ⬅ Back to Form -->
 <div class="top-buttons">
     <a href="../WEBSITE/home.php"><button>🏠 Home</button></a>
     <a href="create_project.php"><button>⬅ Back to Form</button></a>
@@ -38,41 +38,44 @@ if (isset($_GET['delete'])) {
         <th>Action</th>
     </tr>
 
-    <?php
-    // ✅ Fetch all projects
-    $sql = "SELECT * FROM projects ORDER BY id DESC";
-    $result = $conn->query($sql);
+<?php
+// Fetch all projects
+$sql = "SELECT * FROM projects ORDER BY id DESC";
+$result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row['id'] . "</td>";
-            echo "<td>" . htmlspecialchars($row['title']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['description']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['date_finished']) . "</td>";
-        
-            $img = "uploads/" . $row['image'];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+?>
 
-if (!empty($row['image']) && file_exists($img)) {
-    echo "<td><img src='$img' width='120' height='90' style='object-fit:cover;'></td>";
-} else {
-    echo "<td><span style='color:red;'>No Image</span></td>";
-}
+    <tr>
+        <td><?= $row['id']; ?></td>
+        <td><?= htmlspecialchars($row['title']); ?></td>
+        <td><?= htmlspecialchars($row['description']); ?></td>
+        <td><?= htmlspecialchars($row['date_finished']); ?></td>
 
-            // 🗑️ Delete link with confirmation
-            echo "<td>
-                    <a href='view_projects.php?delete=" . $row['id'] . "' 
-                       class='delete-link'
-                       onclick=\"return confirm('Are you sure you want to delete this project?');\">
-                       Delete
-                    </a>
-                  </td>";
-            echo "</tr>";
-        }
-    } else {
-        echo "<tr><td colspan='6'>No projects found.</td></tr>";
+        <!-- ✅ FIXED IMAGE CODE -->
+        <td>
+            <img src="uploads/<?= htmlspecialchars($row['image']); ?>"
+                 style="width:120px;height:120px;border:2px solid cyan;">
+        </td>
+
+        <!-- 🗑️ Delete link -->
+        <td>
+            <a href="view_projects.php?delete=<?= $row['id']; ?>"
+               class="delete-link"
+               onclick="return confirm('Are you sure you want to delete this project?');">
+               Delete
+            </a>
+        </td>
+    </tr>
+
+<?php
     }
-    ?>
+} else {
+    echo "<tr><td colspan='6'>No projects found.</td></tr>";
+}
+?>
+
 </table>
 
 </body>
