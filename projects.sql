@@ -5,4 +5,5 @@ CREATE TABLE projects (
     date_finished DATE NOT NULL,
     image VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+     file VARCHAR (255)
 );

@@ -1,0 +1,9 @@
+<form action="upload_project.php" method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" required>
+    <textarea name="description" required></textarea>
+    <input type="date" name="date_finished" required>
+
+    <input type="file" name="image" accept="image/*">
+
+    <button type="submit">Upload Project</button>
+</form>
